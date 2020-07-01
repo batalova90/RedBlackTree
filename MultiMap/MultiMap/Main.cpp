@@ -23,7 +23,7 @@ int main()
 	tree.Insert(30, 0.3);
 	tree.Insert(25, 0.7);
 	tree.Insert(26, 0.8);
-	tree.Insert(100, 0.9);
+	
 	tree.Insert(110, 1.1);
 	tree.Insert(28, 3.5);
 	tree.Insert(24, 3.6);
