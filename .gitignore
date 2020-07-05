@@ -13,3 +13,7 @@
 8_StackExt.cpp
 9_1_Polymorphism.cpp
 9_2_Abstract_Class.cpp
+*/.vs/*
+*/Debug/*
+*/*.filters
+*/*.user
