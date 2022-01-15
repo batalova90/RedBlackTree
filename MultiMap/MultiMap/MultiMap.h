@@ -20,7 +20,7 @@ private:
 		std::string color_;
 		T key_;
 		T1 data_;
-		Node* p; //указатель на родителя
+		Node* p;
 		Node* left;
 		Node* right;
 		friend class Iterator;
@@ -131,7 +131,7 @@ public:
 		Node<T, T1>* right(Node<T, T1>* current)
 		{
 			Node<T, T1>* x = nullptr;
-			while (current->right != nullptr) //Необходимо доходить до ограничителя!!!
+			while (current->right != nullptr) //ГЌГҐГ®ГЎГµГ®Г¤ГЁГ¬Г® Г¤Г®ГµГ®Г¤ГЁГІГј Г¤Г® Г®ГЈГ°Г Г­ГЁГ·ГЁГІГҐГ«Гї!!!
 			{
 				x = current;
 				current = current->right;
@@ -207,9 +207,9 @@ public:
 		x = runTree(x, key);
 		if (x.root_->left != T_nill)
 			x = leftUbound(x.root_->left);
-		else if (x.root_->p->left == x.root_) //если текущий слева и ниже по дереву никого нет, то возвращаем родителя
-			x = x.root_->p; //перепроверить!!!
-		else                //если он справа находится и большего ключа нет, то возвращаем T_nill
+		else if (x.root_->p->left == x.root_)
+			x = x.root_->p; 
+		else                
 			x = end();
 		return x;
 
@@ -222,7 +222,7 @@ public:
 			it = rightLUbound(it.root_->right);
 		else if (it.root_->right == T_nill)
 		{
-			while (it.root_->p->right != it.root_ && it.root_->p != T_nill) //если текущий не имеет сына справа, то поднимаемся до тех пор, пока не будем справа и возвращаем родителя
+			while (it.root_->p->right != it.root_ && it.root_->p != T_nill)
 			{
 				it = it.root_->p;
 			}
@@ -247,7 +247,7 @@ public:
 	}
 	friend std::ostream& operator << (std::ostream& out, const Node<T, T1>& root)
 	{
-		out << root.data_ << " данные \t" << root.key_ << " ключ \t" << std::endl;
+		out << root.data_ << " Г¤Г Г­Г­Г»ГҐ \t" << root.key_ << " ГЄГ«ГѕГ· \t" << std::endl;
 		return out;
 	}
 
@@ -295,19 +295,18 @@ void MultiMap<T, T1>::Insert(T key, T1 data)
 	}
 	else
 	{
-		Node <T, T1>* x = node_;//туда же куда и корень дерева, "вниз" по узлу
-		Node <T, T1>* y = nullptr; //пока зануляем (вообще будем смотреть "сверху" узла)
+		Node <T, T1>* x = node_;
+		Node <T, T1>* y = nullptr; 
 
-		while (x != nullptr and x != T_nill) //Идем сверху вниз по дереву
+		while (x != nullptr and x != T_nill)
 		{
-			y = x; //перемещаемся
-			if (x->key_ < current->key_) //если текущий больше, идем направо, иначе...
+			y = x; 
+			if (x->key_ < current->key_) 
 				x = x->right;
 			else
 				x = x->left;
 		}
 		current->p = y;
-		//расставляем указатели относительно y, т.е. сверху на current
 		if (y->key_ < current->key_)
 			y->right = current;
 		else
@@ -327,7 +326,7 @@ void MultiMap<T, T1>::outputTreeStraight()
 	if (node_ != nullptr)
 		outputTreeCurrentStraight(node_);
 	else
-		std::cout << "Пустое дерево!" << std::endl;
+		std::cout << "ГЏГіГ±ГІГ®ГҐ Г¤ГҐГ°ГҐГўГ®!" << std::endl;
 }
 
 template<typename T, typename T1>
@@ -336,7 +335,7 @@ void MultiMap<T, T1>::outPutTreeLeft() const
 	if (node_ != nullptr)
 		outputTreeCurrentLeft(node_);
 	else
-		std::cout << "Пустое дерево!" << std::endl;
+		std::cout << "ГЏГіГ±ГІГ®ГҐ Г¤ГҐГ°ГҐГўГ®!" << std::endl;
 }
 
 template<typename T, typename T1>
@@ -345,7 +344,7 @@ void MultiMap<T, T1>::outPutTreeRight()
 	if (node_ != nullptr)
 		outputTreeCurrentRight(node_);
 	else
-		std::cout << "Пустое дерево!" << std::endl;
+		std::cout << "ГЏГіГ±ГІГ®ГҐ Г¤ГҐГ°ГҐГўГ®!" << std::endl;
 }
 
 template<typename T, typename T1>
@@ -379,7 +378,6 @@ T1 MultiMap<T, T1>::operator[](const T key)
 		else
 			current = current->right;
 	}
-	//если нет такого ключа необходимо вернуть итератор, обозначающий лист дерева!!!
 }
 
 template<typename T, typename T1>
@@ -403,17 +401,13 @@ void MultiMap<T, T1>::erase(const T key)
 		else
 			current = current->left;
 	}
-	//иначе вернуть иттератор end;
-	//current->left = nullptr; //спросить надо ли nullptr слева и справа??????
-	//current->right = nullptr;
-	//delete current;
-	//current = nullptr;
+
 }
 
 template<typename T, typename T1>
 void MultiMap<T, T1>::outputTreeCurrentStraight(Node<T, T1>* current)
 {
-	std::cout << "Ключ: " << current->key_ << " \t" << "Данные: " << current->data_ << "\t" << "Цвет: " << current->color_ << std::endl;
+	std::cout << "ГЉГ«ГѕГ·: " << current->key_ << " \t" << "Г„Г Г­Г­Г»ГҐ: " << current->data_ << "\t" << "Г–ГўГҐГІ: " << current->color_ << std::endl;
 	if (current->left != T_nill)
 		outputTreeCurrentStraight(current->left);
 	if (current->right != T_nill)
@@ -425,7 +419,7 @@ void MultiMap<T, T1>::outputTreeCurrentLeft(Node<T, T1>* current) const
 {
 	if (current->left != T_nill)
 		outputTreeCurrentLeft(current->left);
-	std::cout << "Ключ: " << current->key_ << " \t" << "Данные: " << current->data_ << "\t" << "Цвет: " << current->color_ << std::endl;
+	std::cout << "ГЉГ«ГѕГ·: " << current->key_ << " \t" << "Г„Г Г­Г­Г»ГҐ: " << current->data_ << "\t" << "Г–ГўГҐГІ: " << current->color_ << std::endl;
 	if (current->right != T_nill)
 		outputTreeCurrentLeft(current->right);
 }
@@ -435,7 +429,7 @@ void MultiMap<T, T1>::outputTreeCurrentRight(Node<T, T1>* current)
 {
 	if (current->right != T_nill)
 		outputTreeCurrentRight(current->right);
-	std::cout << "Ключ: " << current->key_ << " \t" << "Данные: " << current->data_ << "\t" << "Цвет: " << current->color_ << std::endl;
+	std::cout << "ГЉГ«ГѕГ·: " << current->key_ << " \t" << "Г„Г Г­Г­Г»ГҐ: " << current->data_ << "\t" << "Г–ГўГҐГІ: " << current->color_ << std::endl;
 	if (current->left != T_nill)
 	{
 		outputTreeCurrentRight(current->left);
@@ -502,18 +496,17 @@ void MultiMap<T, T1>::rbDeleteFixUp(Node<T, T1>* x)
 	Node<T, T1>* w = nullptr;
 	while (x != node_ && x->color_ == "black")
 	{
-		if (x == x->p->left) //если левый ребенок
+		if (x == x->p->left) //ГҐГ±Г«ГЁ Г«ГҐГўГ»Г© Г°ГҐГЎГҐГ­Г®ГЄ
 		{
 			w = x->p->right;
-			if (w->color_ == "red") //если брат красный
+			if (w->color_ == "red")
 			{
-				w->color_ = "black"; //окрашиваем брата в черный
-				x->p->color_ = "red"; //отца в красный
-				LeftRotated(x->p); //брат становится отцом родителя
+				w->color_ = "black";
+				x->p->color_ = "red";
+				LeftRotated(x->p);
 				w = x->p->right;
 			}
-			//случай 1(брат красный с черными детьми)
-			if (w->left->color_ == "black" && w->right->color_ == "black") //если у брата черные дети
+			if (w->left->color_ == "black" && w->right->color_ == "black")
 			{
 				w->color_ = "red";
 				x = x->p;
@@ -534,17 +527,17 @@ void MultiMap<T, T1>::rbDeleteFixUp(Node<T, T1>* x)
 				x = node_;
 			}
 		}
-		else //x - правый ребенок
+		else
 		{
 			w = x->p->left;
-			if (w->color_ == "red") //если брат красный
+			if (w->color_ == "red")
 			{
-				w->color_ = "black"; //окрашиваем брата в черный
-				x->p->color_ = "red"; //отца в красный
+				w->color_ = "black";
+				x->p->color_ = "red";
 				RightRotated(x->p);
 				w = x->p->right;
 			}
-			if (w->right->color_ == "black" && w->left->color_ == "black") //если у брата черные дети
+			if (w->right->color_ == "black" && w->left->color_ == "black")
 			{
 				w->color_ = "red";
 				x = x->p;
@@ -671,12 +664,12 @@ template<typename T, typename T1>
 void MultiMap<T, T1>::InsertFixup(Node<T, T1>* current)
 {
 	Node<T, T1>* y = nullptr;
-	if (current != node_)//если корень, то просто окраш. в ч
+	if (current != node_)//ГҐГ±Г«ГЁ ГЄГ®Г°ГҐГ­Гј, ГІГ® ГЇГ°Г®Г±ГІГ® Г®ГЄГ°Г Гё. Гў Г·
 	{
 		while (current->p->color_ == "red" and current != node_)
 
 		{
-			if (current->p == current->p->p->left) //отец левый ребенок
+			if (current->p == current->p->p->left) //Г®ГІГҐГ¶ Г«ГҐГўГ»Г© Г°ГҐГЎГҐГ­Г®ГЄ
 			{
 				y = current->p->p->right;
 
@@ -688,7 +681,7 @@ void MultiMap<T, T1>::InsertFixup(Node<T, T1>* current)
 					current = current->p->p;
 				}
 
-				else //когда нет "дяди"
+				else
 				{
 					if (current == current->p->right)
 					{
@@ -700,10 +693,10 @@ void MultiMap<T, T1>::InsertFixup(Node<T, T1>* current)
 					RightRotated(current->p->p);
 				}
 			}
-			else //отец правый ребенок
+			else
 			{
 				y = current->p->p->left;
-				if (y->color_ == "red") //дядя красный &&&&&&&&&&&&&&&&&&&&
+				if (y->color_ == "red")
 				{
 					current->p->color_ = "black";
 					y->color_ = "black";
@@ -711,9 +704,9 @@ void MultiMap<T, T1>::InsertFixup(Node<T, T1>* current)
 					current = current->p->p;
 				}
 
-				else //нет дяди
+				else 
 				{
-					if (current == current->p->left) //текущий узел слева
+					if (current == current->p->left)
 					{
 						current = current->p;
 						RightRotated(current);
